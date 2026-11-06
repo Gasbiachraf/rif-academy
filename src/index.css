@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-deep: #06343a;
+  --color-teal: #0b5d5e;
+  --color-teal-2: #11807d;
+  --color-mint: #d6efe9;
+  --color-mint-50: #edf7f4;
+  --color-sun: #ffc83d;
+  --color-sun-soft: #ffe9a8;
+  --color-sun-50: #fff7dd;
+  --color-coral: #e8664a;
+  --color-coral-soft: #fde3dc;
+  --color-paper: #fbf9f3;
+  --color-ink: #10262a;
+  --color-muted: #4a5f62;
+  --color-line: #e5dfd1;
+
+  --font-display: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+  --font-sans: 'Figtree', system-ui, sans-serif;
+  --font-arabic: 'Readex Pro', 'Figtree', system-ui, sans-serif;
+
+  --shadow-card: 0 1px 0 rgb(6 52 58 / 0.06), 0 18px 40px -26px rgb(6 52 58 / 0.45);
+  --shadow-pop: 0 2px 0 rgb(6 52 58 / 0.08), 0 24px 50px -24px rgb(6 52 58 / 0.55);
+
+  --animate-pop: pop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.15) both;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+  [dir='rtl'] body,
+  [dir='rtl'] .font-display {
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+  }
+  :focus-visible {
+    @apply outline-3 outline-offset-2 outline-teal-2;
+  }
+  ::selection {
+    @apply bg-sun-soft text-deep;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Yellow highlighter stroke behind a word, like a marked-up notebook. */
+  .hl {
+    background-image: linear-gradient(
+      100deg,
+      transparent 0.2em,
+      var(--color-sun) 0.2em,
+      var(--color-sun) calc(100% - 0.15em),
+      transparent calc(100% - 0.15em)
+    );
+    background-size: 100% 0.42em;
+    background-position: 0 88%;
+    background-repeat: no-repeat;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding-inline: 0.06em;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-1.5 text-[13px] font-semibold text-teal;
+  }
+
+  .btn,
+  .btn-sun,
+  .btn-teal,
+  .btn-ghost,
+  .btn-wa {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-[15px] font-bold transition duration-200 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-sun {
+    @apply bg-sun text-deep shadow-[0_2px_0_#d9a516] hover:bg-[#ffd25e];
+  }
+  .btn-teal {
+    @apply bg-teal text-white shadow-[0_2px_0_#063d3e] hover:bg-teal-2;
+  }
+  .btn-ghost {
+    @apply border-2 border-current/15 hover:border-current/40 hover:bg-current/[0.04];
+  }
+  .btn-wa {
+    @apply bg-[#177e41] text-white shadow-[0_2px_0_#0f5c2e] hover:bg-[#136a37];
+  }
+
+  .card {
+    @apply rounded-3xl border border-line bg-white shadow-card;
+  }
+
+  .chip {
+    @apply inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full border-2 border-line bg-white px-4 text-sm font-semibold text-ink transition select-none hover:border-teal/40 has-[:checked]:border-teal has-[:checked]:bg-teal has-[:checked]:text-white has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-teal-2;
+  }
+
+  .field-label {
+    @apply mb-2 block text-sm font-bold text-ink;
+  }
+  .field {
+    @apply block min-h-12 w-full rounded-2xl border-2 border-line bg-white px-4 py-3 text-base text-ink transition placeholder:text-muted/70 focus:border-teal focus:ring-4 focus:ring-teal/10 focus:outline-none aria-invalid:border-red-700 aria-invalid:ring-red-700/10;
+  }
+  .field-error {
+    @apply mt-1.5 text-sm font-semibold text-red-700;
+  }
+
+  .link-u {
+    @apply font-bold text-teal underline decoration-sun decoration-[3px] underline-offset-4 transition hover:decoration-teal;
+  }
+}
+
+/* Dotted notebook paper. */
+.bg-dots {
+  background-image: radial-gradient(rgb(11 93 94 / 0.13) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.bg-dots-light {
+  background-image: radial-gradient(rgb(255 255 255 / 0.09) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Accordion chevron. */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .chev {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
